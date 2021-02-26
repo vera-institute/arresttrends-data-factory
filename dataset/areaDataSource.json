@@ -1,0 +1,54 @@
+{
+	"name": "areaDataSource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Destination SQL Server Connection",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"areaTableName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "AreaId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaTypeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RegionId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StateId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fips",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaName",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@pipeline().parameters.areaTableName",
+				"type": "Expression"
+			}
+		}
+	}
+}

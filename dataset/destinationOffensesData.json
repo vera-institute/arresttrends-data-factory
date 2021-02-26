@@ -1,0 +1,238 @@
+{
+	"name": "destinationOffensesData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Destination SQL Server Connection",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"offensesTableName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaTypeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsReported",
+				"type": "bit"
+			},
+			{
+				"name": "Fips",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ORI7",
+				"type": "varchar"
+			},
+			{
+				"name": "AllGenders",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Male",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Female",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AllGenders_0_17",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Male_0_17",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Female_0_17",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AllGenders_18_24",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Male_18_24",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Female_18_24",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AllGenders_25_39",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Male_25_39",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Female_25_39",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AllGenders_40_59",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Male_40_59",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Female_40_59",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AllGenders_60",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Male_60",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Female_60",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "White",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WhiteAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WhiteJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Black",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BlackAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BlackJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Asian",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AsianAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AsianJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NativeAmerican",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NativeAmericanAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NativeAmericanJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Hispanic",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "HispanicAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "HispanicJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NonHispanic",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NonHispanicAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NonHispanicJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TotalPopulation",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@pipeline().parameters.destinationTableName",
+				"type": "Expression"
+			}
+		}
+	}
+}

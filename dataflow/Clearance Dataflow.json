@@ -1,0 +1,45 @@
+{
+	"name": "Clearance Dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sourceClearanceDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "ClearanceSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "areaDataSource",
+						"type": "DatasetReference"
+					},
+					"name": "Area"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "destinationClearanceData",
+						"type": "DatasetReference"
+					},
+					"name": "ClearanceDataSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RemovingNA"
+				},
+				{
+					"name": "DataConversion"
+				},
+				{
+					"name": "UpdateAreaInformation"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tFSTATE as string,\n\t\tFIPS as string,\n\t\tORI7 as string,\n\t\tNAME as string,\n\t\tYEAR as string,\n\t\tMonthsReported as string,\n\t\tClearanceRate_Part1 as string,\n\t\tClearanceRate_Violent as string,\n\t\tClearanceRate_Property as string,\n\t\tClearanceRate_Homicide as string,\n\t\tClearanceRate_Rape as string,\n\t\tClearanceRate_Robbery as string,\n\t\tClearanceRate_AggAssault as string,\n\t\tClearanceRate_Burglary as string,\n\t\tClearanceRate_Larceny as string,\n\t\tClearanceRate_MotorVehicleTheft as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\twildcardPaths:['Clearance_Set_Total.csv']) ~> ClearanceSource\nsource(output(\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tRegionId as integer,\n\t\tStateId as integer,\n\t\tFips as integer,\n\t\tAreaName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Area\nClearanceSource filter(YEAR != 'NA' && YEAR != 'na' && FIPS != 'NA' && FIPS != 'na' && FSTATE != 'NA' && FSTATE != 'na') ~> RemovingNA\nRemovingNA derive(FSTATE = toFloat(FSTATE),\n\t\tFIPS = toInteger(FIPS),\n\t\tYEAR = toInteger(YEAR),\n\t\tPART1 = case(ClearanceRate_Part1 == 'NA' || ClearanceRate_Part1 == 'na' || ClearanceRate_Part1 == '', 0.0 , case(toFloat(ClearanceRate_Part1) < 0.0 ,-1.0 , toFloat(ClearanceRate_Part1))),\n\t\tVIOLENT = case(ClearanceRate_Violent == 'NA' || ClearanceRate_Violent == 'na' || ClearanceRate_Violent == '', 0.0 , case(toFloat(ClearanceRate_Violent) < 0.0 ,-1.0 , toFloat(ClearanceRate_Violent))),\n\t\tPROPERTY = case(ClearanceRate_Property == 'NA' || ClearanceRate_Property == 'na' || ClearanceRate_Property == '', 0.0 , case(toFloat(ClearanceRate_Property) < 0.0 ,-1.0 , toFloat(ClearanceRate_Property))),\n\t\tHOMISIDE = case(ClearanceRate_Homicide == 'NA' || ClearanceRate_Homicide == 'na' || ClearanceRate_Homicide == '', 0.0 , case(toFloat(ClearanceRate_Homicide) < 0.0 ,-1.0 , toFloat(ClearanceRate_Homicide))),\n\t\tRAPE = case(ClearanceRate_Rape == 'NA' || ClearanceRate_Rape == 'na' || ClearanceRate_Rape == '', 0.0 , case(toFloat(ClearanceRate_Rape) < 0.0 ,-1.0 , toFloat(ClearanceRate_Rape))),\n\t\tROBBERY = case(ClearanceRate_Robbery == 'NA' || ClearanceRate_Robbery == 'na' || ClearanceRate_Robbery == '', 0.0 ,  case(toFloat(ClearanceRate_Robbery) < 0.0 ,-1.0 , toFloat(ClearanceRate_Robbery))),\n\t\tAGGASSAULT = case(ClearanceRate_AggAssault == 'NA' || ClearanceRate_AggAssault == 'na' || ClearanceRate_AggAssault == '', 0.0 , case(toFloat(ClearanceRate_AggAssault) < 0.0 ,-1.0 , toFloat(ClearanceRate_AggAssault))),\n\t\tBURGLARY = case(ClearanceRate_Burglary == 'NA' || ClearanceRate_Burglary == 'na' || ClearanceRate_Burglary == '', 0.0 , case(toFloat(ClearanceRate_Burglary) < 0.0 ,-1.0 , toFloat(ClearanceRate_Burglary))),\n\t\tLARCENY = case(ClearanceRate_Larceny == 'NA' || ClearanceRate_Larceny == 'na' || ClearanceRate_Larceny == '', 0.0 , case(toFloat(ClearanceRate_Larceny) < 0.0 ,-1.0 , toFloat(ClearanceRate_Larceny))),\n\t\tMOTORVEHICLETHEFT = case(ClearanceRate_MotorVehicleTheft == 'NA' || ClearanceRate_MotorVehicleTheft == 'na' || ClearanceRate_MotorVehicleTheft == '', 0.0 , case(toFloat(ClearanceRate_MotorVehicleTheft) < 0.0 ,-1.0 , toFloat(ClearanceRate_MotorVehicleTheft)))) ~> DataConversion\nDataConversion, Area join(DataConversion@FIPS == Area@Fips\n\t&& NAME == upper(AreaName),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> UpdateAreaInformation\nUpdateAreaInformation sink(input(\n\t\tYear as integer,\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tORI7 as string,\n\t\tFips as integer,\n\t\tPartI as double,\n\t\tViolent as double,\n\t\tAggravatedAssault as double,\n\t\tHomicide as double,\n\t\tRape as double,\n\t\tRobbery as double,\n\t\tProperty as double,\n\t\tBurglary as double,\n\t\tLarceny as double,\n\t\tMotorVehicleTheft as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tYear = YEAR,\n\t\tAreaId,\n\t\tAreaTypeId,\n\t\tORI7,\n\t\tFips = Area@Fips,\n\t\tPartI = PART1,\n\t\tViolent = VIOLENT,\n\t\tAggravatedAssault = AGGASSAULT,\n\t\tHomicide = HOMISIDE,\n\t\tRape = RAPE,\n\t\tRobbery = ROBBERY,\n\t\tProperty = PROPERTY,\n\t\tBurglary = BURGLARY,\n\t\tLarceny = LARCENY,\n\t\tMotorVehicleTheft = MOTORVEHICLETHEFT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ClearanceDataSink"
+		}
+	}
+}

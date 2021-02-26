@@ -1,0 +1,95 @@
+{
+	"name": "sourceClearanceDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source Blob Data Storage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@pipeline().parameters.clearanceDataFileName",
+					"type": "Expression"
+				},
+				"container": "arrests"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "String"
+			},
+			{
+				"name": "FSTATE",
+				"type": "String"
+			},
+			{
+				"name": "FIPS",
+				"type": "String"
+			},
+			{
+				"name": "ORI7",
+				"type": "String"
+			},
+			{
+				"name": "NAME",
+				"type": "String"
+			},
+			{
+				"name": "YEAR",
+				"type": "String"
+			},
+			{
+				"name": "MonthsReported",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_Part1",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_Violent",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_Property",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_Homicide",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_Rape",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_Robbery",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_AggAssault",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_Burglary",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_Larceny",
+				"type": "String"
+			},
+			{
+				"name": "ClearanceRate_MotorVehicleTheft",
+				"type": "String"
+			}
+		]
+	}
+}

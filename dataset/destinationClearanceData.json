@@ -1,0 +1,99 @@
+{
+	"name": "destinationClearanceData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Destination SQL Server Connection",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"clearanceDestinationTableName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaTypeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ORI7",
+				"type": "varchar"
+			},
+			{
+				"name": "Fips",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PartI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Violent",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AggravatedAssault",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Homicide",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Rape",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Robbery",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Property",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Burglary",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Larceny",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "MotorVehicleTheft",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@pipeline().parameters.clearanceTableName",
+				"type": "Expression"
+			}
+		}
+	}
+}

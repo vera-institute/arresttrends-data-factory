@@ -1,0 +1,392 @@
+{
+	"name": "sourceOffensesFileAgency",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source Blob Data Storage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sourceFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@pipeline().parameters.sourceFileName",
+					"type": "Expression"
+				},
+				"container": "arrests"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "String"
+			},
+			{
+				"name": "ORI7",
+				"type": "String"
+			},
+			{
+				"name": "YEAR",
+				"type": "String"
+			},
+			{
+				"name": "Available.Datasets",
+				"type": "String"
+			},
+			{
+				"name": "POP",
+				"type": "String"
+			},
+			{
+				"name": "NAME",
+				"type": "String"
+			},
+			{
+				"name": "ADDRESS_ZIP",
+				"type": "String"
+			},
+			{
+				"name": "AGCYTYPE",
+				"type": "String"
+			},
+			{
+				"name": "SUBTYPE1",
+				"type": "String"
+			},
+			{
+				"name": "SUBTYPE2",
+				"type": "String"
+			},
+			{
+				"name": "PARTOF",
+				"type": "String"
+			},
+			{
+				"name": "U_POPGRP",
+				"type": "String"
+			},
+			{
+				"name": "CORE",
+				"type": "String"
+			},
+			{
+				"name": "SUB",
+				"type": "String"
+			},
+			{
+				"name": "fmsa",
+				"type": "String"
+			},
+			{
+				"name": "fmsaname",
+				"type": "String"
+			},
+			{
+				"name": "FIPS",
+				"type": "String"
+			},
+			{
+				"name": "COUNTYNAME",
+				"type": "String"
+			},
+			{
+				"name": "FSTATE",
+				"type": "String"
+			},
+			{
+				"name": "REGION",
+				"type": "String"
+			},
+			{
+				"name": "Months_Reported",
+				"type": "String"
+			},
+			{
+				"name": "Arrests",
+				"type": "String"
+			},
+			{
+				"name": "ArrestRate",
+				"type": "String"
+			},
+			{
+				"name": "MALE",
+				"type": "String"
+			},
+			{
+				"name": "FEMALE",
+				"type": "String"
+			},
+			{
+				"name": "AGE_09",
+				"type": "String"
+			},
+			{
+				"name": "M0_9",
+				"type": "String"
+			},
+			{
+				"name": "F0_9",
+				"type": "String"
+			},
+			{
+				"name": "AGE_10_12",
+				"type": "String"
+			},
+			{
+				"name": "M10_12",
+				"type": "String"
+			},
+			{
+				"name": "F10_12",
+				"type": "String"
+			},
+			{
+				"name": "AGE_13_15",
+				"type": "String"
+			},
+			{
+				"name": "M13_15",
+				"type": "String"
+			},
+			{
+				"name": "F13_15",
+				"type": "String"
+			},
+			{
+				"name": "AGE_16_17",
+				"type": "String"
+			},
+			{
+				"name": "M16_17",
+				"type": "String"
+			},
+			{
+				"name": "F16_17",
+				"type": "String"
+			},
+			{
+				"name": "AGE_18_24",
+				"type": "String"
+			},
+			{
+				"name": "M18_24",
+				"type": "String"
+			},
+			{
+				"name": "F18_24",
+				"type": "String"
+			},
+			{
+				"name": "AGE_25_29",
+				"type": "String"
+			},
+			{
+				"name": "M25_29",
+				"type": "String"
+			},
+			{
+				"name": "F25_29",
+				"type": "String"
+			},
+			{
+				"name": "AGE_30_34",
+				"type": "String"
+			},
+			{
+				"name": "M30_34",
+				"type": "String"
+			},
+			{
+				"name": "F30_34",
+				"type": "String"
+			},
+			{
+				"name": "AGE_35_39",
+				"type": "String"
+			},
+			{
+				"name": "M35_39",
+				"type": "String"
+			},
+			{
+				"name": "F35_39",
+				"type": "String"
+			},
+			{
+				"name": "AGE_40_44",
+				"type": "String"
+			},
+			{
+				"name": "M40_44",
+				"type": "String"
+			},
+			{
+				"name": "F40_44",
+				"type": "String"
+			},
+			{
+				"name": "AGE_45_49",
+				"type": "String"
+			},
+			{
+				"name": "M45_49",
+				"type": "String"
+			},
+			{
+				"name": "F45_49",
+				"type": "String"
+			},
+			{
+				"name": "AGE_50_54",
+				"type": "String"
+			},
+			{
+				"name": "M50_54",
+				"type": "String"
+			},
+			{
+				"name": "F50_54",
+				"type": "String"
+			},
+			{
+				"name": "AGE_55_59",
+				"type": "String"
+			},
+			{
+				"name": "M55_59",
+				"type": "String"
+			},
+			{
+				"name": "F55_59",
+				"type": "String"
+			},
+			{
+				"name": "AGE_60_64",
+				"type": "String"
+			},
+			{
+				"name": "M60_64",
+				"type": "String"
+			},
+			{
+				"name": "F60_64",
+				"type": "String"
+			},
+			{
+				"name": "AGE_65OVER",
+				"type": "String"
+			},
+			{
+				"name": "M65",
+				"type": "String"
+			},
+			{
+				"name": "F65",
+				"type": "String"
+			},
+			{
+				"name": "Race",
+				"type": "String"
+			},
+			{
+				"name": "WHITE",
+				"type": "String"
+			},
+			{
+				"name": "JW",
+				"type": "String"
+			},
+			{
+				"name": "AW",
+				"type": "String"
+			},
+			{
+				"name": "BLACK",
+				"type": "String"
+			},
+			{
+				"name": "JB",
+				"type": "String"
+			},
+			{
+				"name": "AB",
+				"type": "String"
+			},
+			{
+				"name": "ASIAN",
+				"type": "String"
+			},
+			{
+				"name": "JA",
+				"type": "String"
+			},
+			{
+				"name": "AA",
+				"type": "String"
+			},
+			{
+				"name": "NATIVE",
+				"type": "String"
+			},
+			{
+				"name": "JI",
+				"type": "String"
+			},
+			{
+				"name": "AI",
+				"type": "String"
+			},
+			{
+				"name": "Race.PropReported",
+				"type": "String"
+			},
+			{
+				"name": "Ethnicity",
+				"type": "String"
+			},
+			{
+				"name": "HISPANIC",
+				"type": "String"
+			},
+			{
+				"name": "JH",
+				"type": "String"
+			},
+			{
+				"name": "AH",
+				"type": "String"
+			},
+			{
+				"name": "NON_HISPANIC",
+				"type": "String"
+			},
+			{
+				"name": "JN",
+				"type": "String"
+			},
+			{
+				"name": "AN",
+				"type": "String"
+			},
+			{
+				"name": "Ethnicity.PropReported",
+				"type": "String"
+			},
+			{
+				"name": "OFFENSE",
+				"type": "String"
+			}
+		]
+	}
+}
