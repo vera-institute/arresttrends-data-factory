@@ -42,6 +42,11 @@
 				"type": "varchar"
 			},
 			{
+				"name": "TotalPopulation",
+				"type": "int",
+				"precision": 10
+			},
+			{
 				"name": "AllGenders",
 				"type": "int",
 				"precision": 10
@@ -222,9 +227,194 @@
 				"precision": 10
 			},
 			{
-				"name": "TotalPopulation",
+				"name": "POPAllGenders_0_17",
 				"type": "int",
 				"precision": 10
+			},
+			{
+				"name": "POPMale_0_17",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPFemale_0_17",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPAllGenders_18_24",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPMale_18_24",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPFemale_18_24",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPAllGenders_25_39",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPMale_25_39",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPFemale_25_39",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPAllGenders_40_59",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPMale_40_59",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPFemale_40_59",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPAllGenders_60",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPMale_60",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPFemale_60",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPWhite",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPWhiteAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPWhiteJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPBlack",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPBlackAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPBlackJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPAsian",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPAsianAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPAsianJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPNativeAmerican",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPNativeAmericanAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPNativeAmericanJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPHispanic",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPHispanicAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPHispanicJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPNonHispanic",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPNonHispanicAdult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPNonHispanicJuvenile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPMale",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPFemale",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPUnder18",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POPOVER18",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ArrestRates",
+				"type": "float",
+				"precision": 15
 			}
 		],
 		"typeProperties": {

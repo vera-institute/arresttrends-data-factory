@@ -1,0 +1,35 @@
+{
+	"name": "Crosswalk Dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sourceCrossWalk",
+						"type": "DatasetReference"
+					},
+					"name": "CrossWalkSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "destinationCrossWalk",
+						"type": "DatasetReference"
+					},
+					"name": "CrossWalkDestination"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RemoveNA"
+				},
+				{
+					"name": "DerivedCountyColumns"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tORI as string,\n\t\tNAME as string,\n\t\tFIPS as string,\n\t\tCOUNTYNAME as string,\n\t\tSTATENAME as string,\n\t\tREGION as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> CrossWalkSource\nCrossWalkSource filter(upper(COUNTYNAME) != '_UNDETERMINED' || ORI != '-1') ~> RemoveNA\nRemoveNA derive(AgencyName = upper(NAME),\n\t\tStateName = upper(STATENAME),\n\t\tRegionName = upper(REGION),\n\t\tId = toInteger(Prop_0),\n\t\tCountyName = upper(COUNTYNAME)) ~> DerivedCountyColumns\nDerivedCountyColumns sink(input(\n\t\tid as integer,\n\t\tORI as string,\n\t\tAgencyName as string,\n\t\tFIPS as string,\n\t\tCountyName as string,\n\t\tStateName as string,\n\t\tRegionName as string,\n\t\tAgencyID as integer,\n\t\tStateID as integer,\n\t\tRegionID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tORI,\n\t\tAgencyName,\n\t\tFIPS,\n\t\tCountyName = DerivedCountyColumns@CountyName,\n\t\tStateName = DerivedCountyColumns@StateName,\n\t\tRegionName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> CrossWalkDestination"
+		}
+	}
+}

@@ -1,0 +1,52 @@
+{
+	"name": "Process Clearance data - Region",
+	"properties": {
+		"description": "This pipeline will only process clearance data",
+		"activities": [
+			{
+				"name": "Process Clearance data",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Clearance Rates Region",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"ClearanceDestinationDataset": {
+								"clearanceDestinationTableName": {
+									"value": "@pipeline().parameters.clearanceTableName",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"clearanceDataFileName": {
+				"type": "string"
+			},
+			"clearanceTableName": {
+				"type": "string"
+			},
+			"areaTableName": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

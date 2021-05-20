@@ -1,40 +1,20 @@
 {
-	"name": "areaDataSource",
+	"name": "DataReportedAgenciesStaging",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Destination SQL Server Connection",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"areaTableName": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "AreaId",
+				"name": "AreaTypeID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "AreaTypeId",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "RegionId",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "StateId",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "Fips",
+				"name": "AreaID",
 				"type": "int",
 				"precision": 10
 			},
@@ -47,16 +27,35 @@
 				"type": "varchar"
 			},
 			{
-				"name": "AreaDisplayName",
+				"name": "Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MonthsReported",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DataReported",
+				"type": "varchar"
+			},
+			{
+				"name": "DataReportedRace",
+				"type": "varchar"
+			},
+			{
+				"name": "DataReportedEthnicity",
+				"type": "varchar"
+			},
+			{
+				"name": "DataReportedClearance",
 				"type": "varchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": {
-				"value": "area",
-				"type": "Expression"
-			}
+			"table": "DataReportedAgencyStaging"
 		}
 	}
 }

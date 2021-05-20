@@ -1,5 +1,5 @@
 {
-	"name": "sourceClearanceDataSet",
+	"name": "DataReportedSourceCounty",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Source Blob Data Storage",
@@ -10,11 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@pipeline().parameters.clearanceDataFileName",
-					"type": "Expression"
-				},
-				"folderPath": "clearancerates",
+				"fileName": "County_Missingness-1.csv",
+				"folderPath": "datareported",
 				"container": "arrests"
 			},
 			"columnDelimiter": ",",
@@ -28,19 +25,19 @@
 				"type": "String"
 			},
 			{
-				"name": "FSTATE",
-				"type": "String"
-			},
-			{
 				"name": "FIPS",
 				"type": "String"
 			},
 			{
-				"name": "ORI7",
+				"name": "COUNTYNAME",
 				"type": "String"
 			},
 			{
-				"name": "NAME",
+				"name": "STATENAME",
+				"type": "String"
+			},
+			{
+				"name": "REGION",
 				"type": "String"
 			},
 			{
@@ -48,47 +45,59 @@
 				"type": "String"
 			},
 			{
-				"name": "MonthsReported",
+				"name": "Avg_Months",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Part1",
+				"name": "DR_All",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Violent",
+				"name": "DR_Part",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Property",
+				"name": "Race_All",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Homicide",
+				"name": "Race_Part",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Rape",
+				"name": "Eth_All",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Robbery",
+				"name": "Eth_Part",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_AggAssault",
+				"name": "Clr_All",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Burglary",
+				"name": "Clr_Part",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Larceny",
+				"name": "Agencies",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_MotorVehicleTheft",
+				"name": "DR_None",
+				"type": "String"
+			},
+			{
+				"name": "Race_None",
+				"type": "String"
+			},
+			{
+				"name": "Eth_None",
+				"type": "String"
+			},
+			{
+				"name": "Clr_None",
 				"type": "String"
 			}
 		]

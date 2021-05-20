@@ -1,0 +1,37 @@
+{
+	"name": "Victimizations - scraped",
+	"properties": {
+		"activities": [
+			{
+				"name": "Victimizations Data Flow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Victimizations",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"Area": {
+								"areaTableName": "area"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": []
+	}
+}

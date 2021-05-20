@@ -1,0 +1,35 @@
+{
+	"name": "Data Reported - National",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DataReportedSourceNational",
+						"type": "DatasetReference"
+					},
+					"name": "DataReported"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DataReportedDestination",
+						"type": "DatasetReference"
+					},
+					"name": "UpdateDatabase"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RemoveNA"
+				},
+				{
+					"name": "DataTypeConversion"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tYEAR as string,\n\t\tAvg_Months as string,\n\t\tDR_All as string,\n\t\tDR_Part as string,\n\t\tRace_All as string,\n\t\tRace_Part as string,\n\t\tEth_All as string,\n\t\tEth_Part as string,\n\t\tClr_All as string,\n\t\tClr_Part as string,\n\t\tAgencies as string,\n\t\tDR_None as string,\n\t\tRace_None as string,\n\t\tEth_None as string,\n\t\tClr_None as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DataReported\nDataReported filter(lower(YEAR) != 'na') ~> RemoveNA\nRemoveNA derive(Year_INT = toInteger(YEAR),\n\t\tArrestNone = round(iifNull(case(lower(DR_None) == 'na' || lower(DR_None) == '0' || lower(DR_None) == 'inf', 0.0, case(toFloat(DR_None) < 0 , 0.0, toFloat(DR_None) * 100)), 0.0), 2),\n\t\tClearanceRatesNone = round(iifNull(case(lower(Clr_None) == 'na' || lower(Clr_None) == '0' || lower(Clr_None) == 'inf', 0.0, case(toFloat(Clr_None) < 0 , 0.0, toFloat(Clr_None) * 100)), 0.0), 2),\n\t\tArrestByRaceNone = round(iifNull(case(lower(Race_None) == 'na' || lower(Race_None) == '0' || lower(Race_None) == 'inf', 0.0, case(toFloat(Race_None) < 0 , 0.0, toFloat(Race_None) * 100)), 0.0), 2),\n\t\tArrestByEthnicityNone = round(iifNull(case(lower(Eth_None) == 'na' || lower(Eth_None) == '0' || lower(Eth_None) == 'inf', 0.0, case(toFloat(Eth_None) < 0 , 0.0, toFloat(Eth_None) * 100)), 0.0), 2),\n\t\tArrestPartial = round(iifNull(case(lower(DR_Part) == 'na' || lower(DR_Part) == '0' || lower(DR_Part) == 'inf', 0.0, case(toFloat(DR_Part) < 0 , 0.0, toFloat(DR_Part) * 100)), 0.0), 2),\n\t\tClearanceRatesPartial = round(iifNull(case(lower(Clr_Part) == 'na' || lower(Clr_Part) == '0' || lower(Clr_Part) == 'inf', 0.0, case(toFloat(Clr_Part) < 0 , 0.0, toFloat(Clr_Part) * 100)), 0.0), 2),\n\t\tArrestByRacePartial = round(iifNull(case(lower(Race_Part) == 'na' || lower(Race_Part) == '0' || lower(Race_Part) == 'inf', 0.0, case(toFloat(Race_Part) < 0 , 0.0, toFloat(Race_Part) * 100)), 0.0), 2),\n\t\tArrestByEthnicityPartial = round(iifNull(case(lower(Eth_Part) == 'na' || lower(Eth_Part) == '0' || lower(Eth_Part) == 'inf', 0.0, case(toFloat(Eth_Part) < 0 , 0.0, toFloat(Eth_Part) * 100)), 0.0), 2),\n\t\tArrestAllData = round(iifNull(case(lower(DR_All) == 'na' || lower(DR_All) == '0' || lower(DR_All) == 'inf', 0.0, case(toFloat(DR_All) < 0 , 0.0, toFloat(DR_All) * 100)), 0.0), 2),\n\t\tClearanceRatesAllData = round(iifNull(case(lower(Clr_All) == 'na' || lower(Clr_All) == '0' || lower(Clr_All) == 'inf', 0.0, case(toFloat(Clr_All) < 0 , 0.0, toFloat(Clr_All) * 100)), 0.0), 2),\n\t\tArrestByRaceAllData = round(iifNull(case(lower(Race_All) == 'na' || lower(Race_All) == '0' || lower(Race_All) == 'inf', 0.0, case(toFloat(Race_All) < 0 , 0.0, toFloat(Race_All)* 100)), 0.0), 2),\n\t\tArrestByEthnicityAllData = round(iifNull(case(lower(Eth_All) == 'na' || lower(Eth_All) == '0' || lower(Eth_All) == 'inf', 0.0, case(toFloat(Eth_All) < 0 , 0.0, toFloat(Eth_All) * 100)), 0.0), 2),\n\t\tMonthsReported = round(iifNull(case(lower(Avg_Months) == 'na' || lower(Avg_Months) == '0' || lower(Avg_Months) == 'inf', 0.0, case(toFloat(Avg_Months) < 0 , 0.0, toFloat(Avg_Months))), 0.0), 2),\n\t\tAreaID = 1,\n\t\tAreaTypeID = 1,\n\t\tFIPS = 0,\n\t\tORI = \"\",\n\t\tAreaName = 'the United States') ~> DataTypeConversion\nDataTypeConversion sink(input(\n\t\tYear as integer,\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tFips as integer,\n\t\tORI7 as string,\n\t\tArrestNone as double,\n\t\tClearanceRatesNone as double,\n\t\tArrestByRaceNone as double,\n\t\tArrestByEthnicityNone as double,\n\t\tArrestPartial as double,\n\t\tClearanceRatesPartial as double,\n\t\tArrestByRacePartial as double,\n\t\tArrestByEthnicityPartial as double,\n\t\tArrestAllData as double,\n\t\tClearanceRatesAllData as double,\n\t\tArrestByRaceAllData as double,\n\t\tArrestByEthnicityAllData as double,\n\t\tMonthsReported as double,\n\t\tAreaName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tYear = Year_INT,\n\t\tAreaId = AreaID,\n\t\tAreaTypeId = AreaTypeID,\n\t\tFips = FIPS,\n\t\tORI7 = ORI,\n\t\tArrestNone,\n\t\tClearanceRatesNone,\n\t\tArrestByRaceNone,\n\t\tArrestByEthnicityNone,\n\t\tArrestPartial,\n\t\tClearanceRatesPartial,\n\t\tArrestByRacePartial,\n\t\tArrestByEthnicityPartial,\n\t\tArrestAllData,\n\t\tClearanceRatesAllData,\n\t\tArrestByRaceAllData,\n\t\tArrestByEthnicityAllData,\n\t\tMonthsReported,\n\t\tAreaName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> UpdateDatabase"
+		}
+	}
+}

@@ -1,0 +1,48 @@
+{
+	"name": "Clearance Rates Agency",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AgencyClearanceDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "ClearanceDataSourdce"
+				},
+				{
+					"dataset": {
+						"referenceName": "areaDataSource",
+						"type": "DatasetReference"
+					},
+					"name": "AreaTable"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "destinationClearanceData",
+						"type": "DatasetReference"
+					},
+					"name": "ClearanceDestinationDataset"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CorrectNAs"
+				},
+				{
+					"name": "cleansedData"
+				},
+				{
+					"name": "Agencies"
+				},
+				{
+					"name": "AgencyJoin"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tORI as string,\n\t\tAGENCY as string,\n\t\tFIPS as string,\n\t\tCOUNTYNAME as string,\n\t\tSTATENAME as string,\n\t\tREGION as string,\n\t\tYEAR as string,\n\t\tMONTH_RPTD as string,\n\t\tANNUAL_CLEARANCE_RATE_MURDER as string,\n\t\tANNUAL_CLEARANCE_RATE_MANSLAUGHTER as string,\n\t\tANNUAL_CLEARANCE_RATE_RAPE_TOTAL as string,\n\t\tANNUAL_CLEARANCE_RATE_F_RAPE as string,\n\t\tANNUAL_CLEARANCE_RATE_A_RAPE as string,\n\t\tANNUAL_CLEARANCE_RATE_ROBBERY_TOTAL as string,\n\t\tANNUAL_CLEARANCE_RATE_G_ROB as string,\n\t\tANNUAL_CLEARANCE_RATE_K_ROB as string,\n\t\tANNUAL_CLEARANCE_RATE_O_ROB as string,\n\t\tANNUAL_CLEARANCE_RATE_SA_ROB as string,\n\t\tANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL as string,\n\t\tANNUAL_CLEARANCE_RATE_G_ASSAULT as string,\n\t\tANNUAL_CLEARANCE_RATE_K_ASSAULT as string,\n\t\tANNUAL_CLEARANCE_RATE_O_ASSAULT as string,\n\t\tANNUAL_CLEARANCE_RATE_HF_ASSAULT as string,\n\t\tANNUAL_CLEARANCE_RATE_S_ASSAULT as string,\n\t\tANNUAL_CLEARANCE_RATE_BURGLARY_TOTAL as string,\n\t\tANNUAL_CLEARANCE_RATE_FORCE_ENTRY as string,\n\t\tANNUAL_CLEARANCE_RATE_ENTRYNF as string,\n\t\tANNUAL_CLEARANCE_RATE_ATT_BURGLARY as string,\n\t\tANNUAL_CLEARANCE_RATE_LARCENY_TOT as string,\n\t\tANNUAL_CLEARANCE_RATE_MVT_TOTAL as string,\n\t\tANNUAL_CLEARANCE_RATE_AUTO_THEFT as string,\n\t\tANNUAL_CLEARANCE_RATE_TRUCK_BUS_THEFT as string,\n\t\tANNUAL_CLEARANCE_RATE_O_MVT as string,\n\t\tANNUAL_CLEARANCE_RATE_ALL_FIELDS as string,\n\t\tANNUAL_CLEARANCE_RATE_VIOLENT as string,\n\t\tANNUAL_CLEARANCE_RATE_PROPERTY as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ClearanceDataSourdce\nsource(output(\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tRegionId as integer,\n\t\tStateId as integer,\n\t\tFips as integer,\n\t\tAreaName as string,\n\t\tORI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> AreaTable\ncleansedData derive(Violent = round((case(lower(ANNUAL_CLEARANCE_RATE_VIOLENT) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_VIOLENT) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_VIOLENT))) * 100) , 2),\n\t\tAggravatedAssault = round((case(lower(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL))) * 100), 2),\n\t\tHomicide = round((case(lower(ANNUAL_CLEARANCE_RATE_MURDER) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_MURDER) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_MURDER))) * 100), 2),\n\t\tRape = round((case(lower(ANNUAL_CLEARANCE_RATE_RAPE_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_RAPE_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_RAPE_TOTAL))) * 100) , 2),\n\t\tRobbery = round((case(lower(ANNUAL_CLEARANCE_RATE_ROBBERY_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_ROBBERY_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_ROBBERY_TOTAL))) * 100), 2),\n\t\tProperty = round((case(lower(ANNUAL_CLEARANCE_RATE_PROPERTY) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_PROPERTY) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_PROPERTY))) * 100), 2),\n\t\tBurglary = round((case(lower(ANNUAL_CLEARANCE_RATE_BURGLARY_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_BURGLARY_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_BURGLARY_TOTAL))) * 100), 2),\n\t\tAssault = round((case(lower(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL))) * 100) , 2),\n\t\tLarceny = round((case(lower(ANNUAL_CLEARANCE_RATE_LARCENY_TOT) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_LARCENY_TOT) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_LARCENY_TOT))) * 100) , 2),\n\t\tMotorVehicleTheft = round((case(lower(ANNUAL_CLEARANCE_RATE_MVT_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_MVT_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_MVT_TOTAL))) * 100) , 2),\n\t\tMonthsReported = round((case(lower(MONTH_RPTD) == 'na', 0.0, case(toFloat(MONTH_RPTD) < 0 , 0.0, toFloat(MONTH_RPTD)))), 2),\n\t\tYEAR_INT = case(lower(YEAR) == 'na', 0, case(toInteger(YEAR) < 0 , 0, toInteger(YEAR))),\n\t\tPARTI = round(((case(lower(ANNUAL_CLEARANCE_RATE_VIOLENT) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_VIOLENT) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_VIOLENT))) * 100 +\r\ncase(lower(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL)))  * 100 +\r\ncase(lower(ANNUAL_CLEARANCE_RATE_MURDER) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_MURDER) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_MURDER)))  * 100 +\r\ncase(lower(ANNUAL_CLEARANCE_RATE_RAPE_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_RAPE_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_RAPE_TOTAL)))  * 100 +\r\ncase(lower(ANNUAL_CLEARANCE_RATE_ROBBERY_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_ROBBERY_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_ROBBERY_TOTAL)))  * 100 +\r\ncase(lower(ANNUAL_CLEARANCE_RATE_PROPERTY) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_PROPERTY) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_PROPERTY)))  * 100 +\r\ncase(lower(ANNUAL_CLEARANCE_RATE_BURGLARY_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_BURGLARY_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_BURGLARY_TOTAL)))  * 100 +\r\ncase(lower(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL)))  * 100 +\r\ncase(lower(ANNUAL_CLEARANCE_RATE_LARCENY_TOT) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_LARCENY_TOT) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_LARCENY_TOT)))  * 100 +\r\ncase(lower(ANNUAL_CLEARANCE_RATE_MVT_TOTAL) == 'na', 0.0, case(toFloat(ANNUAL_CLEARANCE_RATE_MVT_TOTAL) < 0 , 0.0, toFloat(ANNUAL_CLEARANCE_RATE_MVT_TOTAL)))  * 100 \r\n) / 10), 2),\n\t\tAreaTypeId = 5) ~> CorrectNAs\nClearanceDataSourdce filter((YEAR != 'NA' && YEAR != 'na' && YEAR != '0' && YEAR != '') && (STATENAME !='' && STATENAME != 'NA' && STATENAME !='na') && (ORI !='' && ORI != 'NA' && ORI !='na') && (FIPS !='' && FIPS != 'NA' && FIPS !='na') && (AGENCY !='' && AGENCY != 'NA' && AGENCY !='na')) ~> cleansedData\nAreaTable filter(AreaTypeId == 5) ~> Agencies\nCorrectNAs, Agencies join(lower(ClearanceDataSourdce@ORI) == lower(AreaTable@ORI),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> AgencyJoin\nAgencyJoin sink(input(\n\t\tYear as integer,\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tFips as integer,\n\t\tORI7 as string,\n\t\tArrestNone as double,\n\t\tClearanceRatesNone as double,\n\t\tArrestByRaceNone as double,\n\t\tArrestByEthnicityNone as double,\n\t\tArrestPartial as double,\n\t\tClearanceRatesPartial as double,\n\t\tArrestByRacePartial as double,\n\t\tArrestByEthnicityPartial as double,\n\t\tArrestAllData as double,\n\t\tClearanceRatesAllData as double,\n\t\tArrestByRaceAllData as double,\n\t\tArrestByEthnicityAllData as double,\n\t\tMonthsReported as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tYear = YEAR_INT,\n\t\tAreaId,\n\t\tAreaTypeId,\n\t\tORI7 = AreaTable@ORI,\n\t\tFips = AreaTable@Fips,\n\t\tPartI = PARTI,\n\t\tViolent,\n\t\tAggravatedAssault,\n\t\tHomicide,\n\t\tRape,\n\t\tRobbery,\n\t\tProperty,\n\t\tBurglary,\n\t\tLarceny,\n\t\tMotorVehicleTheft,\n\t\tMonthsReported\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ClearanceDestinationDataset"
+		}
+	}
+}

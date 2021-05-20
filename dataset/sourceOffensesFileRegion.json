@@ -1,5 +1,5 @@
 {
-	"name": "sourceOffensesFileState",
+	"name": "sourceOffensesFileRegion",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Source Blob Data Storage",
@@ -14,7 +14,7 @@
 					"value": "@pipeline().parameters.sourceFileName",
 					"type": "Expression"
 				},
-				"folderPath": "state",
+				"folderPath": "region",
 				"container": "arrests"
 			},
 			"columnDelimiter": ",",
@@ -25,10 +25,6 @@
 		"schema": [
 			{
 				"name": "Prop_0",
-				"type": "String"
-			},
-			{
-				"name": "STATENAME",
 				"type": "String"
 			},
 			{

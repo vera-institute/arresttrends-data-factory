@@ -1,0 +1,58 @@
+{
+	"name": "Process Clearance data - Agency",
+	"properties": {
+		"description": "This pipeline will only process clearance data",
+		"activities": [
+			{
+				"name": "Process Clearance data",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Clearance Rates Agency",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"AreaTable": {
+								"areaTableName": {
+									"value": "@pipeline().parameters.areaTableName",
+									"type": "Expression"
+								}
+							},
+							"ClearanceDestinationDataset": {
+								"clearanceDestinationTableName": {
+									"value": "@pipeline().parameters.clearanceTableName",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"clearanceDataFileName": {
+				"type": "string"
+			},
+			"clearanceTableName": {
+				"type": "string"
+			},
+			"areaTableName": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

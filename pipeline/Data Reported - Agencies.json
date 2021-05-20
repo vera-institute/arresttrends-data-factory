@@ -1,0 +1,73 @@
+{
+	"name": "Data Reported - Agencies",
+	"properties": {
+		"activities": [
+			{
+				"name": "Data Reported Agencies",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Data Reported Agency",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"Areas": {
+								"areaTableName": {
+									"value": "@pipeline().parameters.AreaTableName",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Exec ProcessDataReportedForAgencies",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Data Reported Agencies",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[ProcessDataReportedForAgencies]"
+				},
+				"linkedServiceName": {
+					"referenceName": "Destination SQL Server Connection",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"AreaTableName": {
+				"type": "string",
+				"defaultValue": "Area"
+			}
+		},
+		"annotations": []
+	}
+}

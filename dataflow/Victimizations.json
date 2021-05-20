@@ -1,0 +1,89 @@
+{
+	"name": "Victimizations",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "VictimizationDataSource",
+						"type": "DatasetReference"
+					},
+					"name": "VictimizationDataSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "areaDataSource",
+						"type": "DatasetReference"
+					},
+					"name": "Area"
+				},
+				{
+					"dataset": {
+						"referenceName": "VictimizationDataTable",
+						"type": "DatasetReference"
+					},
+					"name": "ExistingData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "VictimizationDestinationDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "PoliceRegionDataSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "VictimizationDestinationDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "PoliceNationDataSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "DataTypeConversions"
+				},
+				{
+					"name": "PDCOLUMNNAMES"
+				},
+				{
+					"name": "FBICOLUMNNAMES"
+				},
+				{
+					"name": "SOURCEUNKNOWNCOLUMNNAMES"
+				},
+				{
+					"name": "REGIONONLY"
+				},
+				{
+					"name": "PDNationSplit"
+				},
+				{
+					"name": "JOINWITHAREA"
+				},
+				{
+					"name": "NATIONALADDITIONALDATA"
+				},
+				{
+					"name": "NationAlterRow"
+				},
+				{
+					"name": "RegionAlterRow"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Join2"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tYEAR as string,\n\t\tDATASET as string,\n\t\tGEO_UNIT as string,\n\t\tVIOLENT as string,\n\t\tPROPERTY as string,\n\t\tRAPE as string,\n\t\tROBBERY as string,\n\t\tAGG_ASSAULT as string,\n\t\tBURGLARY as string,\n\t\tLARCENY_THEFT as string,\n\t\tMVT as string,\n\t\t{PERSONAL LARCENY THEFT} as string,\n\t\t{HOUSEHOLD THEFT} as string,\n\t\tPART1 as string,\n\t\tREGION as string,\n\t\tREPORTED as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> VictimizationDataSource\nsource(output(\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tRegionId as integer,\n\t\tStateId as integer,\n\t\tFips as integer,\n\t\tAreaName as string,\n\t\tORI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Area\nsource(output(\n\t\tYear as integer,\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tFips as integer,\n\t\tORI7 as string,\n\t\tPartISurveyTakers as double,\n\t\tViolentSurveyTakers as double,\n\t\tAggravatedAssaultSurveyTakers as double,\n\t\tHomicideSurveyTakers as double,\n\t\tRapeSurveyTakers as double,\n\t\tRobberySurveyTakers as double,\n\t\tPropertySurveyTakers as double,\n\t\tBurglarySurveyTakers as double,\n\t\tLarcenySurveyTakers as double,\n\t\tMotorVehicleTheftSurveyTakers as double,\n\t\tPartIPolice as double,\n\t\tViolentPolice as double,\n\t\tAggravatedAssaultPolice as double,\n\t\tHomicidePolice as double,\n\t\tRapePolice as double,\n\t\tRobberyPolice as double,\n\t\tPropertyPolice as double,\n\t\tBurglaryPolice as double,\n\t\tLarcenyPolice as double,\n\t\tMotorVehicleTheftPolice as double,\n\t\tPartIFBI as double,\n\t\tViolentFBI as double,\n\t\tAggravatedAssaultFBI as double,\n\t\tHomicideFBI as double,\n\t\tRapeFBI as double,\n\t\tRobberyFBI as double,\n\t\tPropertyFBI as double,\n\t\tBurglaryFBI as double,\n\t\tLarcenyFBI as double,\n\t\tMotorVehicleTheftFBI as double,\n\t\tAreaName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ExistingData\nDataTypeConversions split(lower(REPORTED) == lower('NA'),\n\tlower(REPORTED)  == lower('Reported to Police'),\n\tlower(REPORTED)  == lower('Crimes Reported to the FBI'),\n\tdisjoint: true) ~> ConditionalSplit1@(NA, POLICE, FBI, SURVEYTAKERS)\nVictimizationDataSource derive(VIOLENT_COMPUTED = case(lower(VIOLENT) == 'na', 0, case(toInteger(VIOLENT) < 0 , 0, toInteger(VIOLENT))),\n\t\tPROPERTY_COMPUTED = case(lower(PROPERTY) == 'na', 0, case(toInteger(PROPERTY) < 0 , 0, toInteger(PROPERTY))),\n\t\tRAPE_COMPUTED = case(lower(RAPE) == 'na', 0, case(toInteger(RAPE) < 0 , 0, toInteger(RAPE))),\n\t\tROBBERY_COMPUTER = case(lower(ROBBERY) == 'na', 0, case(toInteger(ROBBERY) < 0 , 0, toInteger(ROBBERY))),\n\t\tAGG_ASSAULT_COMPUTED = case(lower(AGG_ASSAULT) == 'na', 0, case(toInteger(AGG_ASSAULT) < 0 , 0, toInteger(AGG_ASSAULT))),\n\t\tBURGLARY_COMPUTED = case(lower(BURGLARY) == 'na', 0, case(toInteger(BURGLARY) < 0 , 0, toInteger(BURGLARY))),\n\t\tLARCENY_COMPUTED = case(lower(LARCENY_THEFT) == 'na', 0, case(toInteger(LARCENY_THEFT) < 0 , 0, toInteger(LARCENY_THEFT))) + case(lower({PERSONAL LARCENY THEFT}) == 'na', 0, case(toInteger({PERSONAL LARCENY THEFT}) < 0 , 0, toInteger({PERSONAL LARCENY THEFT}))),\n\t\tMVT_COMPUTED = case(lower(MVT) == 'na', 0, case(toInteger(MVT) < 0 , 0, toInteger(MVT))),\n\t\tHOUSEHOLD_THEFT_COMPUTED = case(lower({HOUSEHOLD THEFT}) == 'na', 0, case(toInteger({HOUSEHOLD THEFT}) < 0 , 0, toInteger({HOUSEHOLD THEFT}))),\n\t\tPARTI_COMPUTED = case(lower(PART1) == 'na', 0, case(toInteger(PART1) < 0 , 0, toInteger(PART1))),\n\t\tYEAR_INT = toInteger(YEAR)) ~> DataTypeConversions\nConditionalSplit1@POLICE derive(PDREPORTED_VIOLENT_COMPUTED = VIOLENT_COMPUTED,\n\t\tPDREPORTED_PROPERTY_COMPUTED = PROPERTY_COMPUTED,\n\t\tPDREPORTED_RAPE_COMPUTED = RAPE_COMPUTED,\n\t\tPDREPORTED_ROBBERY_COMPUTED = ROBBERY_COMPUTER,\n\t\tPDREPORTED_AGG_ASSAULT_COMPUTED = AGG_ASSAULT_COMPUTED,\n\t\tPDREPORTED_BURGLARY_COMPUTED = BURGLARY_COMPUTED,\n\t\tPDREPORTED_LARCENY_COMPUTED = LARCENY_COMPUTED,\n\t\tPDREPORTED_MVT_COMPUTED = MVT_COMPUTED,\n\t\tPDREPORTED_HOUSEHOLD_THEFT_COMPUTED = HOUSEHOLD_THEFT_COMPUTED,\n\t\tPDREPORTED_PARTI_COMPUTED = PARTI_COMPUTED,\n\t\tPDREPORTED_YEAR_INT = YEAR_INT,\n\t\tPDREPORTED_REGION = REGION) ~> PDCOLUMNNAMES\nConditionalSplit1@FBI derive(NOPDREPORTED_VIOLENT_COMPUTED = VIOLENT_COMPUTED,\n\t\tNOPDREPORTED_PROPERTY_COMPUTED = PROPERTY_COMPUTED,\n\t\tNOPDREPORTED_RAPE_COMPUTED = RAPE_COMPUTED,\n\t\tNOPDREPORTED_ROBBERY_COMPUTED = ROBBERY_COMPUTER,\n\t\tNOPDREPORTED_AGG_ASSAULT_COMPUTED = AGG_ASSAULT_COMPUTED,\n\t\tNOPDREPORTED_BURGLARY_COMPUTED = BURGLARY_COMPUTED,\n\t\tNOPDREPORTED_LARCENY_COMPUTED = LARCENY_COMPUTED,\n\t\tNOPDREPORTED_MVT_COMPUTED = MVT_COMPUTED,\n\t\tNOPDREPORTED_HOUSEHOLD_THEFT_COMPUTED = HOUSEHOLD_THEFT_COMPUTED,\n\t\tNOPDREPORTED_PARTI_COMPUTED = PARTI_COMPUTED) ~> FBICOLUMNNAMES\nConditionalSplit1@SURVEYTAKERS derive(SOURCEUN_VIOLENT_COMPUTED = VIOLENT_COMPUTED,\n\t\tSOURCEUN_PROPERTY_COMPUTED = PROPERTY_COMPUTED,\n\t\tSOURCEUN_RAPE_COMPUTED = RAPE_COMPUTED,\n\t\tSOURCEUN_ROBBERY_COMPUTED = ROBBERY_COMPUTER,\n\t\tSOURCEUN_AGG_ASSAULT_COMPUTED = AGG_ASSAULT_COMPUTED,\n\t\tSOURCEUN_BURGLARY_COMPUTED = BURGLARY_COMPUTED,\n\t\tSOURCEUN_LARCENY_COMPUTED = LARCENY_COMPUTED,\n\t\tSOURCEUN_MVT_COMPUTED = MVT_COMPUTED,\n\t\tSOURCEUN_HOUSEHOLD_THEFT_COMPUTED = HOUSEHOLD_THEFT_COMPUTED,\n\t\tSOURCEUN_PARTI_COMPUTED = PARTI_COMPUTED,\n\t\tSOURCEUN_YEAR_INT = YEAR_INT,\n\t\tSOURCEUN_REGION = REGION) ~> SOURCEUNKNOWNCOLUMNNAMES\nArea filter(AreaTypeId == 2) ~> REGIONONLY\nPDCOLUMNNAMES split(lower(PDREPORTED_REGION) == 'national',\n\tlower(PDREPORTED_REGION) != 'national',\n\tdisjoint: false) ~> PDNationSplit@(NATIONONLY, NONNATIONONLY, JunkData)\nPDNationSplit@NONNATIONONLY, REGIONONLY join(lower(REGION) == lower(AreaName),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JOINWITHAREA\nPDNationSplit@NATIONONLY derive(NATIONALAREAID = 1,\n\t\tNATIONALAREATYPEID = 1) ~> NATIONALADDITIONALDATA\nJoin1 alterRow(updateIf(equals(YEAR_INT,ExistingData@Year)&&equals(NATIONALAREAID,AreaId)&&equals(NATIONALAREATYPEID,AreaTypeId)),\n\tinsertIf(notEquals(YEAR_INT,ExistingData@Year)&&notEquals(NATIONALAREAID,AreaId)&&notEquals(NATIONALAREATYPEID,AreaTypeId))) ~> NationAlterRow\nJoin2 alterRow(updateIf(equals(YEAR_INT,ExistingData@Year)&&equals(Area@AreaId,ExistingData@AreaId)&&equals(Area@AreaTypeId,ExistingData@AreaTypeId)),\n\tinsertIf(true())) ~> RegionAlterRow\nNATIONALADDITIONALDATA, ExistingData join(YEAR_INT == ExistingData@Year\n\t&& NATIONALAREAID == AreaId\n\t&& NATIONALAREATYPEID == AreaTypeId,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join1\nJOINWITHAREA, ExistingData join(YEAR_INT == ExistingData@Year\n\t&& Area@AreaId == ExistingData@AreaId\n\t&& Area@AreaTypeId == ExistingData@AreaTypeId,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join2\nRegionAlterRow sink(input(\n\t\tYear as integer,\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tPartISurveyTakers as double,\n\t\tViolentSurveyTakers as double,\n\t\tAggravatedAssaultSurveyTakers as double,\n\t\tRapeSurveyTakers as double,\n\t\tRobberySurveyTakers as double,\n\t\tPropertySurveyTakers as double,\n\t\tBurglarySurveyTakers as double,\n\t\tLarcenySurveyTakers as double,\n\t\tMotorVehicleTheftSurveyTakers as double,\n\t\tPartIPolice as double,\n\t\tViolentPolice as double,\n\t\tAggravatedAssaultPolice as double,\n\t\tRapePolice as double,\n\t\tRobberyPolice as double,\n\t\tPropertyPolice as double,\n\t\tBurglaryPolice as double,\n\t\tLarcenyPolice as double,\n\t\tMotorVehicleTheftPolice as double,\n\t\tPartIFBI as double,\n\t\tViolentFBI as double,\n\t\tAggravatedAssaultFBI as double,\n\t\tRapeFBI as double,\n\t\tRobberyFBI as double,\n\t\tPropertyFBI as double,\n\t\tBurglaryFBI as double,\n\t\tLarcenyFBI as double,\n\t\tMotorVehicleTheftFBI as double,\n\t\tAreaName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['Year'],\n\tformat: 'table',\n\tmapColumn(\n\t\tYear = YEAR_INT,\n\t\tAreaId,\n\t\tAreaTypeId,\n\t\tFips,\n\t\tORI7 = ORI,\n\t\tPartIPolice = PDREPORTED_PARTI_COMPUTED,\n\t\tViolentPolice = PDREPORTED_VIOLENT_COMPUTED,\n\t\tAggravatedAssaultPolice = PDREPORTED_AGG_ASSAULT_COMPUTED,\n\t\tRapePolice = PDREPORTED_RAPE_COMPUTED,\n\t\tRobberyPolice = PDREPORTED_ROBBERY_COMPUTED,\n\t\tPropertyPolice = PDREPORTED_PROPERTY_COMPUTED,\n\t\tBurglaryPolice = PDREPORTED_BURGLARY_COMPUTED,\n\t\tLarcenyPolice = PDREPORTED_LARCENY_COMPUTED,\n\t\tMotorVehicleTheftPolice = PDREPORTED_MVT_COMPUTED\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> PoliceRegionDataSink\nNationAlterRow sink(input(\n\t\tYear as integer,\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tPartISurveyTakers as double,\n\t\tViolentSurveyTakers as double,\n\t\tAggravatedAssaultSurveyTakers as double,\n\t\tRapeSurveyTakers as double,\n\t\tRobberySurveyTakers as double,\n\t\tPropertySurveyTakers as double,\n\t\tBurglarySurveyTakers as double,\n\t\tLarcenySurveyTakers as double,\n\t\tMotorVehicleTheftSurveyTakers as double,\n\t\tPartIPolice as double,\n\t\tViolentPolice as double,\n\t\tAggravatedAssaultPolice as double,\n\t\tRapePolice as double,\n\t\tRobberyPolice as double,\n\t\tPropertyPolice as double,\n\t\tBurglaryPolice as double,\n\t\tLarcenyPolice as double,\n\t\tMotorVehicleTheftPolice as double,\n\t\tPartIFBI as double,\n\t\tViolentFBI as double,\n\t\tAggravatedAssaultFBI as double,\n\t\tRapeFBI as double,\n\t\tRobberyFBI as double,\n\t\tPropertyFBI as double,\n\t\tBurglaryFBI as double,\n\t\tLarcenyFBI as double,\n\t\tMotorVehicleTheftFBI as double,\n\t\tAreaName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['Year'],\n\tformat: 'table',\n\tmapColumn(\n\t\tYear = YEAR_INT,\n\t\tAreaId = NATIONALAREAID,\n\t\tAreaTypeId = NATIONALAREATYPEID,\n\t\tPartIPolice = PDREPORTED_PARTI_COMPUTED,\n\t\tViolentPolice = PDREPORTED_VIOLENT_COMPUTED,\n\t\tAggravatedAssaultPolice = PDREPORTED_AGG_ASSAULT_COMPUTED,\n\t\tRapePolice = PDREPORTED_RAPE_COMPUTED,\n\t\tRobberyPolice = PDREPORTED_ROBBERY_COMPUTED,\n\t\tPropertyPolice = PDREPORTED_PROPERTY_COMPUTED,\n\t\tBurglaryPolice = PDREPORTED_BURGLARY_COMPUTED,\n\t\tLarcenyPolice = PDREPORTED_LARCENY_COMPUTED,\n\t\tMotorVehicleTheftPolice = PDREPORTED_MVT_COMPUTED\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> PoliceNationDataSink"
+		}
+	}
+}

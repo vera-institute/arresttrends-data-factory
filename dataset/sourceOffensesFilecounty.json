@@ -1,9 +1,14 @@
 {
-	"name": "sourceOffensesFileState",
+	"name": "sourceOffensesFilecounty",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Source Blob Data Storage",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sourceFileName": {
+				"type": "string"
+			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",
@@ -14,7 +19,7 @@
 					"value": "@pipeline().parameters.sourceFileName",
 					"type": "Expression"
 				},
-				"folderPath": "state",
+				"folderPath": "county",
 				"container": "arrests"
 			},
 			"columnDelimiter": ",",
@@ -28,11 +33,23 @@
 				"type": "String"
 			},
 			{
+				"name": "COUNTYNAME",
+				"type": "String"
+			},
+			{
 				"name": "STATENAME",
 				"type": "String"
 			},
 			{
 				"name": "REGION",
+				"type": "String"
+			},
+			{
+				"name": "OFFENSE",
+				"type": "String"
+			},
+			{
+				"name": "FIPS",
 				"type": "String"
 			},
 			{
@@ -45,6 +62,10 @@
 			},
 			{
 				"name": "Arrests",
+				"type": "String"
+			},
+			{
+				"name": "ArrestRate",
 				"type": "String"
 			},
 			{
@@ -565,14 +586,6 @@
 			},
 			{
 				"name": "POP_AN",
-				"type": "String"
-			},
-			{
-				"name": "ArrestRate",
-				"type": "String"
-			},
-			{
-				"name": "OFFENSE",
 				"type": "String"
 			}
 		]

@@ -1,5 +1,5 @@
 {
-	"name": "sourceClearanceDataSet",
+	"name": "VictimizationDataSource",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Source Blob Data Storage",
@@ -10,11 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@pipeline().parameters.clearanceDataFileName",
-					"type": "Expression"
-				},
-				"folderPath": "clearancerates",
+				"fileName": "Victimizations.csv",
+				"folderPath": "victimizations",
 				"container": "arrests"
 			},
 			"columnDelimiter": ",",
@@ -28,67 +25,67 @@
 				"type": "String"
 			},
 			{
-				"name": "FSTATE",
-				"type": "String"
-			},
-			{
-				"name": "FIPS",
-				"type": "String"
-			},
-			{
-				"name": "ORI7",
-				"type": "String"
-			},
-			{
-				"name": "NAME",
-				"type": "String"
-			},
-			{
 				"name": "YEAR",
 				"type": "String"
 			},
 			{
-				"name": "MonthsReported",
+				"name": "DATASET",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Part1",
+				"name": "GEO_UNIT",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Violent",
+				"name": "VIOLENT",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Property",
+				"name": "PROPERTY",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Homicide",
+				"name": "RAPE",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Rape",
+				"name": "ROBBERY",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Robbery",
+				"name": "AGG_ASSAULT",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_AggAssault",
+				"name": "BURGLARY",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Burglary",
+				"name": "LARCENY_THEFT",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Larceny",
+				"name": "MVT",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_MotorVehicleTheft",
+				"name": "PERSONAL LARCENY THEFT",
+				"type": "String"
+			},
+			{
+				"name": "HOUSEHOLD THEFT",
+				"type": "String"
+			},
+			{
+				"name": "PART1",
+				"type": "String"
+			},
+			{
+				"name": "REGION",
+				"type": "String"
+			},
+			{
+				"name": "REPORTED",
 				"type": "String"
 			}
 		]

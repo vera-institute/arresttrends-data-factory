@@ -1,0 +1,48 @@
+{
+	"name": "Data Reported Agency",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DataReportedAgencySource",
+						"type": "DatasetReference"
+					},
+					"name": "Agencies"
+				},
+				{
+					"dataset": {
+						"referenceName": "areaDataSource",
+						"type": "DatasetReference"
+					},
+					"name": "Areas"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DataReportedAgenciesStaging",
+						"type": "DatasetReference"
+					},
+					"name": "UpdateDatabase"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RemoveNA"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "AgenciesData"
+				},
+				{
+					"name": "AreaJoin"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tNAME as string,\n\t\tFIPS as string,\n\t\tCOUNTYNAME as string,\n\t\tSTATENAME as string,\n\t\tREGION as string,\n\t\tORI as string,\n\t\tYEAR as string,\n\t\tMonths_Reported as string,\n\t\tDataReported as string,\n\t\tDataReported_Race as string,\n\t\tDataReported_Ethn as string,\n\t\tDataReported_Clearance as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Agencies\nsource(output(\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tRegionId as integer,\n\t\tStateId as integer,\n\t\tFips as integer,\n\t\tAreaName as string,\n\t\tORI as string,\n\t\tAreaDisplayName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Areas\nAgencies filter(lower(NAME) != 'na' || lower(FIPS) != 'na' || lower(ORI) != 'na') ~> RemoveNA\nRemoveNA derive(YEARINT = case(lower(YEAR) == 'na', 0, case(toInteger(YEAR) < 0 , 0, toInteger(YEAR))),\n\t\tMONTHSREPORTED = case(lower(Months_Reported) == 'na', 0, case(toInteger(Months_Reported) < 0 , 0, toInteger(Months_Reported))),\n\t\tDATAREPORTED = upper(DataReported),\n\t\tDATAREPORTEDCLEARANCE = upper(DataReported_Clearance),\n\t\tDATAREPORTEDRACE = upper(DataReported_Race),\n\t\tDATAREPORTEDEHTNICITY = upper(DataReported_Ethn),\n\t\tORI7 = upper(ORI)) ~> DerivedColumn1\nAreas filter(AreaTypeId == 5) ~> AgenciesData\nDerivedColumn1, AgenciesData join(ORI7 == upper(Areas@ORI),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> AreaJoin\nAreaJoin sink(input(\n\t\tAreaTypeID as integer,\n\t\tAreaID as integer,\n\t\tAreaName as string,\n\t\tORI as string,\n\t\tYear as integer,\n\t\tMonthsReported as double,\n\t\tDataReported as string,\n\t\tDataReportedRace as string,\n\t\tDataReportedEthnicity as string,\n\t\tDataReportedClearance as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tAreaTypeID = AreaTypeId,\n\t\tAreaID = AreaId,\n\t\tAreaName,\n\t\tORI = ORI7,\n\t\tYear = YEARINT,\n\t\tMonthsReported = MONTHSREPORTED,\n\t\tDataReported = DerivedColumn1@DATAREPORTED,\n\t\tDataReportedRace = DATAREPORTEDRACE,\n\t\tDataReportedEthnicity = DATAREPORTEDEHTNICITY,\n\t\tDataReportedClearance = DATAREPORTEDCLEARANCE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> UpdateDatabase"
+		}
+	}
+}

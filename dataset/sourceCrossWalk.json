@@ -1,0 +1,52 @@
+{
+	"name": "sourceCrossWalk",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source Blob Data Storage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "crosswalk.csv",
+				"container": "crosswalk"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "String"
+			},
+			{
+				"name": "ORI",
+				"type": "String"
+			},
+			{
+				"name": "NAME",
+				"type": "String"
+			},
+			{
+				"name": "FIPS",
+				"type": "String"
+			},
+			{
+				"name": "COUNTYNAME",
+				"type": "String"
+			},
+			{
+				"name": "STATENAME",
+				"type": "String"
+			},
+			{
+				"name": "REGION",
+				"type": "String"
+			}
+		]
+	}
+}

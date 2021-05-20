@@ -1,5 +1,5 @@
 {
-	"name": "sourceClearanceDataSet",
+	"name": "DataReportedAgencySource",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Source Blob Data Storage",
@@ -10,11 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@pipeline().parameters.clearanceDataFileName",
-					"type": "Expression"
-				},
-				"folderPath": "clearancerates",
+				"fileName": "Agency_Missingness.csv",
+				"folderPath": "datareported",
 				"container": "arrests"
 			},
 			"columnDelimiter": ",",
@@ -28,7 +25,7 @@
 				"type": "String"
 			},
 			{
-				"name": "FSTATE",
+				"name": "NAME",
 				"type": "String"
 			},
 			{
@@ -36,11 +33,19 @@
 				"type": "String"
 			},
 			{
-				"name": "ORI7",
+				"name": "COUNTYNAME",
 				"type": "String"
 			},
 			{
-				"name": "NAME",
+				"name": "STATENAME",
+				"type": "String"
+			},
+			{
+				"name": "REGION",
+				"type": "String"
+			},
+			{
+				"name": "ORI",
 				"type": "String"
 			},
 			{
@@ -48,47 +53,23 @@
 				"type": "String"
 			},
 			{
-				"name": "MonthsReported",
+				"name": "Months_Reported",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Part1",
+				"name": "DataReported",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Violent",
+				"name": "DataReported_Race",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Property",
+				"name": "DataReported_Ethn",
 				"type": "String"
 			},
 			{
-				"name": "ClearanceRate_Homicide",
-				"type": "String"
-			},
-			{
-				"name": "ClearanceRate_Rape",
-				"type": "String"
-			},
-			{
-				"name": "ClearanceRate_Robbery",
-				"type": "String"
-			},
-			{
-				"name": "ClearanceRate_AggAssault",
-				"type": "String"
-			},
-			{
-				"name": "ClearanceRate_Burglary",
-				"type": "String"
-			},
-			{
-				"name": "ClearanceRate_Larceny",
-				"type": "String"
-			},
-			{
-				"name": "ClearanceRate_MotorVehicleTheft",
+				"name": "DataReported_Clearance",
 				"type": "String"
 			}
 		]

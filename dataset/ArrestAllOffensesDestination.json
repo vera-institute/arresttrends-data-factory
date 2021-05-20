@@ -1,0 +1,225 @@
+{
+	"name": "ArrestAllOffensesDestination",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Destination SQL Server Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaTypeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsReported",
+				"type": "bit"
+			},
+			{
+				"name": "Fips",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ORI7",
+				"type": "varchar"
+			},
+			{
+				"name": "TotalPopulation",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AverageMonthOfDataReported",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AllOffenses",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PartI",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PartII",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Violent",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AggravatedAssault",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Homicide",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Rape",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Robbery",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Property",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Arson",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Burglary",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Larceny",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MotorVehicleTheft",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CurfewLoitering",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DisorderlyConduct",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DrivingUnderTheInfluence",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DrugAbuse",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Drunkenness",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Embezzlement",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ForgeryCounterfeiting",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fraud",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Gambling",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LiquorLaws",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OffensesAgainstFamilyChildren",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OtherNonTrafficOffenses",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Prostitution",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Runaway",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SexOffense",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SimpleAssault",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StolenProperty",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Suspicion",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Vagrancy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Vandalism",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Weapons",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "AllOffensesDemographicsDetails"
+		}
+	}
+}

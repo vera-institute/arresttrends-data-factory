@@ -1,14 +1,9 @@
 {
-	"name": "destinationClearanceData",
+	"name": "DataReportedDestination",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Destination SQL Server Connection",
 			"type": "LinkedServiceReference"
-		},
-		"parameters": {
-			"clearanceDestinationTableName": {
-				"type": "string"
-			}
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
@@ -101,14 +96,15 @@
 				"name": "MonthsReported",
 				"type": "float",
 				"precision": 15
+			},
+			{
+				"name": "AreaName",
+				"type": "varchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": {
-				"value": "@pipeline().parameters.clearanceTableName",
-				"type": "Expression"
-			}
+			"table": "DataReported"
 		}
 	}
 }

@@ -1,0 +1,156 @@
+{
+	"name": "RegionClearanceRateDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source Blob Data Storage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@pipeline().parameters.clearanceDataFileName",
+					"type": "Expression"
+				},
+				"folderPath": "clearancerates/region",
+				"container": "arrests"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "String"
+			},
+			{
+				"name": "REGION",
+				"type": "String"
+			},
+			{
+				"name": "YEAR",
+				"type": "String"
+			},
+			{
+				"name": "MONTH_RPTD",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_MURDER",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_MANSLAUGHTER",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_RAPE_TOTAL",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_F_RAPE",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_A_RAPE",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_ROBBERY_TOTAL",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_G_ROB",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_K_ROB",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_O_ROB",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_SA_ROB",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_ASSAULT_TOTAL",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_G_ASSAULT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_K_ASSAULT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_O_ASSAULT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_HF_ASSAULT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_S_ASSAULT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_BURGLARY_TOTAL",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_FORCE_ENTRY",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_ENTRYNF",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_ATT_BURGLARY",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_LARCENY_TOT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_MVT_TOTAL",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_AUTO_THEFT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_TRUCK_BUS_THEFT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_O_MVT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_ALL_FIELDS",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_VIOLENT",
+				"type": "String"
+			},
+			{
+				"name": "ANNUAL_CLEARANCE_RATE_PROPERTY",
+				"type": "String"
+			}
+		]
+	}
+}

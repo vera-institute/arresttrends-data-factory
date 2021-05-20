@@ -1,0 +1,48 @@
+{
+	"name": "Victimization With Staging",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "VictimizationDataSource",
+						"type": "DatasetReference"
+					},
+					"name": "VictimizationDataSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "areaDataSource",
+						"type": "DatasetReference"
+					},
+					"name": "Area"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "VictimizationStaging",
+						"type": "DatasetReference"
+					},
+					"name": "Staging"
+				}
+			],
+			"transformations": [
+				{
+					"name": "removeNA"
+				},
+				{
+					"name": "COMPUTED"
+				},
+				{
+					"name": "NATIONREGION"
+				},
+				{
+					"name": "Join1"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tYEAR as string,\n\t\tDATASET as string,\n\t\tGEO_UNIT as string,\n\t\tVIOLENT as string,\n\t\tPROPERTY as string,\n\t\tRAPE as string,\n\t\tROBBERY as string,\n\t\tAGG_ASSAULT as string,\n\t\tBURGLARY as string,\n\t\tLARCENY_THEFT as string,\n\t\tMVT as string,\n\t\t{PERSONAL LARCENY THEFT} as string,\n\t\t{HOUSEHOLD THEFT} as string,\n\t\tPART1 as string,\n\t\tREGION as string,\n\t\tREPORTED as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> VictimizationDataSource\nsource(output(\n\t\tAreaId as integer,\n\t\tAreaTypeId as integer,\n\t\tRegionId as integer,\n\t\tStateId as integer,\n\t\tFips as integer,\n\t\tAreaName as string,\n\t\tORI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Area\nVictimizationDataSource filter(upper(REPORTED) != 'NA') ~> removeNA\nremoveNA derive(YEAR_INT = toInteger(YEAR),\n\t\tPARTI_COMPUTED = case(lower(PART1) == 'na', 0, case(toInteger(PART1) < 0 , 0, toInteger(PART1))),\n\t\tVIOLENT_COMPUTED = case(lower(VIOLENT) == 'na', 0, case(toInteger(VIOLENT) < 0 , 0, toInteger(VIOLENT))),\n\t\tPROPERTY_COMPUTED = case(lower(PROPERTY) == 'na', 0, case(toInteger(PROPERTY) < 0 , 0, toInteger(PROPERTY))),\n\t\tRAPE_COMPUTED = case(lower(RAPE) == 'na', 0, case(toInteger(RAPE) < 0 , 0, toInteger(RAPE))),\n\t\tROBBERY_COMPUTER = case(lower(ROBBERY) == 'na', 0, case(toInteger(ROBBERY) < 0 , 0, toInteger(ROBBERY))),\n\t\tAGG_ASSAULT_COMPUTED = case(lower(AGG_ASSAULT) == 'na', 0, case(toInteger(AGG_ASSAULT) < 0 , 0, toInteger(AGG_ASSAULT))),\n\t\tBURGLARY_COMPUTED = case(lower(BURGLARY) == 'na', 0, case(toInteger(BURGLARY) < 0 , 0, toInteger(BURGLARY))),\n\t\tLARCENY_COMPUTED = case(lower(LARCENY_THEFT) == 'na', 0, case(toInteger(LARCENY_THEFT) < 0 , 0, toInteger(LARCENY_THEFT))) + case(lower({PERSONAL LARCENY THEFT}) == 'na', 0, case(toInteger({PERSONAL LARCENY THEFT}) < 0 , 0, toInteger({PERSONAL LARCENY THEFT}))),\n\t\tMVT_COMPUTED = case(lower(MVT) == 'na', 0, case(toInteger(MVT) < 0 , 0, toInteger(MVT))),\n\t\tHOUSEHOLD_THEFT_COMPUTED = case(lower({HOUSEHOLD THEFT}) == 'na', 0, case(toInteger({HOUSEHOLD THEFT}) < 0 , 0, toInteger({HOUSEHOLD THEFT}))),\n\t\tREGION_COMPUTED = case(upper(REGION) == 'NATIONAL', 'the United States', REGION)) ~> COMPUTED\nArea filter(AreaTypeId == 1 || AreaTypeId == 2) ~> NATIONREGION\nCOMPUTED, NATIONREGION join(upper(REGION_COMPUTED) == upper(AreaName),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 sink(input(\n\t\tYear as integer,\n\t\tAreaID as integer,\n\t\tAreaTypeID as integer,\n\t\tPartI as integer,\n\t\tViolent as integer,\n\t\tAggravatedAssault as integer,\n\t\tRape as integer,\n\t\tRobbery as integer,\n\t\tProperty as integer,\n\t\tBurglary as integer,\n\t\tLarceny as integer,\n\t\tMotorVehicleTheft as integer,\n\t\tReported as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tmapColumn(\n\t\tYear = YEAR_INT,\n\t\tAreaID = AreaId,\n\t\tAreaTypeID = AreaTypeId,\n\t\tPartI = PARTI_COMPUTED,\n\t\tViolent = VIOLENT_COMPUTED,\n\t\tAggravatedAssault = AGG_ASSAULT_COMPUTED,\n\t\tRape = RAPE_COMPUTED,\n\t\tRobbery = ROBBERY_COMPUTER,\n\t\tProperty = PROPERTY_COMPUTED,\n\t\tBurglary = BURGLARY_COMPUTED,\n\t\tLarceny = LARCENY_COMPUTED,\n\t\tMotorVehicleTheft = MVT_COMPUTED,\n\t\tReported = REPORTED\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> Staging"
+		}
+	}
+}

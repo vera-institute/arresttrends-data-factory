@@ -1,0 +1,185 @@
+{
+	"name": "ArrestsAllOffensesSourceNation",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source Blob Data Storage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sourceFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@pipeline().parameters.sourceFileName",
+					"type": "Expression"
+				},
+				"folderPath": "AllOffensesArrests/nation",
+				"container": "arrests"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "String"
+			},
+			{
+				"name": "YEAR",
+				"type": "String"
+			},
+			{
+				"name": "Avg_Months_Reported",
+				"type": "String"
+			},
+			{
+				"name": "POP",
+				"type": "String"
+			},
+			{
+				"name": "Total_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Part1_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Part2_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Violent_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Property_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Homicide_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Rape_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Robbery_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "AggAssault_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Burglary_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Larceny_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "MotorVehicleTheft_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "SimpleAssault_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Arson_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "ForgeryCounterfeit_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Fraud_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Embezzlement_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "StolenProp_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Vandalism_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Weapons_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Prostitution_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "SexOffense_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "DrugAbuse_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Gambling_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "FamilyChildren_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "DUI_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Liquor_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Drunkeness_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Disorderly_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Vagrancy_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Other_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Suspicion_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "CurfewLoitering_Arrests",
+				"type": "String"
+			},
+			{
+				"name": "Runaways_Arrests",
+				"type": "String"
+			}
+		]
+	}
+}

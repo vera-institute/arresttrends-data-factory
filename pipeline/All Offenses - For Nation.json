@@ -1,0 +1,65 @@
+{
+	"name": "All Offenses - For Nation",
+	"properties": {
+		"activities": [
+			{
+				"name": "All offenses For Nation",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "All Offenses DataFlow - Nation",
+						"type": "DataFlowReference",
+						"parameters": {
+							"isReported": "1"
+						},
+						"datasetParameters": {
+							"AllArrestsDataSource": {
+								"sourceFileName": {
+									"value": "@pipeline().parameters.sourceFileName",
+									"type": "Expression"
+								}
+							},
+							"Area": {
+								"areaTableName": {
+									"value": "@pipeline().parameters.areaTableName",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"sourceFileName": {
+				"type": "string"
+			},
+			"destinationTableName": {
+				"type": "string"
+			},
+			"areaTableName": {
+				"type": "string",
+				"defaultValue": "area"
+			},
+			"isReported": {
+				"type": "int",
+				"defaultValue": 1
+			}
+		},
+		"annotations": []
+	}
+}

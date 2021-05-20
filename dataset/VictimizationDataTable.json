@@ -1,0 +1,195 @@
+{
+	"name": "VictimizationDataTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Destination SQL Server Connection",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AreaTypeId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fips",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ORI7",
+				"type": "varchar"
+			},
+			{
+				"name": "PartISurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ViolentSurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AggravatedAssaultSurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "HomicideSurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "RapeSurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "RobberySurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "PropertySurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "BurglarySurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "LarcenySurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "MotorVehicleTheftSurveyTakers",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "PartIPolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ViolentPolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AggravatedAssaultPolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "HomicidePolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "RapePolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "RobberyPolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "PropertyPolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "BurglaryPolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "LarcenyPolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "MotorVehicleTheftPolice",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "PartIFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ViolentFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AggravatedAssaultFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "HomicideFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "RapeFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "RobberyFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "PropertyFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "BurglaryFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "LarcenyFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "MotorVehicleTheftFBI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AreaName",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Victimizations"
+		}
+	}
+}

@@ -1,9 +1,14 @@
 {
-	"name": "sourceOffensesFileState",
+	"name": "ArrestsAllOffensesSourceRegionEstimated",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Source Blob Data Storage",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sourceFileName": {
+				"type": "string"
+			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",
@@ -11,10 +16,10 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": {
-					"value": "@pipeline().parameters.sourceFileName",
+					"value": "Region2016.csv",
 					"type": "Expression"
 				},
-				"folderPath": "state",
+				"folderPath": "AllOffensesArrests/region",
 				"container": "arrests"
 			},
 			"columnDelimiter": ",",
@@ -25,10 +30,6 @@
 		"schema": [
 			{
 				"name": "Prop_0",
-				"type": "String"
-			},
-			{
-				"name": "STATENAME",
 				"type": "String"
 			},
 			{
@@ -44,271 +45,143 @@
 				"type": "String"
 			},
 			{
-				"name": "Arrests",
+				"name": "Total_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "MALE",
+				"name": "Part1_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "FEMALE",
+				"name": "Part2_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_09",
+				"name": "Violent_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M0_9",
+				"name": "Property_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F0_9",
+				"name": "Homicide_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_10_12",
+				"name": "Rape_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M10_12",
+				"name": "Robbery_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F10_12",
+				"name": "AggAssault_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_13_15",
+				"name": "Burglary_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M13_15",
+				"name": "Larceny_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F13_15",
+				"name": "MotorVehicleTheft_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_16_17",
+				"name": "SimpleAssault_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M16_17",
+				"name": "Arson_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F16_17",
+				"name": "ForgeryCounterfeit_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_18_24",
+				"name": "Fraud_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M18_24",
+				"name": "Embezzlement_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F18_24",
+				"name": "StolenProp_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_25_29",
+				"name": "Vandalism_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M25_29",
+				"name": "Weapons_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F25_29",
+				"name": "Prostitution_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_30_34",
+				"name": "SexOffense_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M30_34",
+				"name": "DrugAbuse_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F30_34",
+				"name": "Gambling_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_35_39",
+				"name": "FamilyChildren_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M35_39",
+				"name": "DUI_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F35_39",
+				"name": "Liquor_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_40_44",
+				"name": "Drunkeness_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M40_44",
+				"name": "Disorderly_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F40_44",
+				"name": "Vagrancy_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_45_49",
+				"name": "Other_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M45_49",
+				"name": "Suspicion_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "F45_49",
+				"name": "CurfewLoitering_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "AGE_50_54",
+				"name": "Runaways_Arrests",
 				"type": "String"
 			},
 			{
-				"name": "M50_54",
-				"type": "String"
-			},
-			{
-				"name": "F50_54",
-				"type": "String"
-			},
-			{
-				"name": "AGE_55_59",
-				"type": "String"
-			},
-			{
-				"name": "M55_59",
-				"type": "String"
-			},
-			{
-				"name": "F55_59",
-				"type": "String"
-			},
-			{
-				"name": "AGE_60_64",
-				"type": "String"
-			},
-			{
-				"name": "M60_64",
-				"type": "String"
-			},
-			{
-				"name": "F60_64",
-				"type": "String"
-			},
-			{
-				"name": "AGE_65OVER",
-				"type": "String"
-			},
-			{
-				"name": "M65",
-				"type": "String"
-			},
-			{
-				"name": "F65",
-				"type": "String"
-			},
-			{
-				"name": "Race",
-				"type": "String"
-			},
-			{
-				"name": "WHITE",
-				"type": "String"
-			},
-			{
-				"name": "JW",
-				"type": "String"
-			},
-			{
-				"name": "AW",
-				"type": "String"
-			},
-			{
-				"name": "BLACK",
-				"type": "String"
-			},
-			{
-				"name": "JB",
-				"type": "String"
-			},
-			{
-				"name": "AB",
-				"type": "String"
-			},
-			{
-				"name": "ASIAN",
-				"type": "String"
-			},
-			{
-				"name": "JA",
-				"type": "String"
-			},
-			{
-				"name": "AA",
-				"type": "String"
-			},
-			{
-				"name": "NATIVE",
-				"type": "String"
-			},
-			{
-				"name": "JI",
-				"type": "String"
-			},
-			{
-				"name": "AI",
-				"type": "String"
-			},
-			{
-				"name": "Race.PropReported",
-				"type": "String"
-			},
-			{
-				"name": "Ethnicity",
-				"type": "String"
-			},
-			{
-				"name": "HISPANIC",
-				"type": "String"
-			},
-			{
-				"name": "JH",
-				"type": "String"
-			},
-			{
-				"name": "AH",
-				"type": "String"
-			},
-			{
-				"name": "NON_HISPANIC",
-				"type": "String"
-			},
-			{
-				"name": "JN",
-				"type": "String"
-			},
-			{
-				"name": "AN",
-				"type": "String"
-			},
-			{
-				"name": "Ethnicity.PropReported",
+				"name": "POP_TOTAL",
 				"type": "String"
 			},
 			{
@@ -565,14 +438,6 @@
 			},
 			{
 				"name": "POP_AN",
-				"type": "String"
-			},
-			{
-				"name": "ArrestRate",
-				"type": "String"
-			},
-			{
-				"name": "OFFENSE",
 				"type": "String"
 			}
 		]

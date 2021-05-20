@@ -1,0 +1,62 @@
+{
+	"name": "Process offense Data - Region",
+	"properties": {
+		"activities": [
+			{
+				"name": "Offense DataFlow - Region",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "offence DataFlow - Region",
+						"type": "DataFlowReference",
+						"parameters": {
+							"isReported": "1"
+						},
+						"datasetParameters": {
+							"AreaData": {
+								"areaTableName": "@pipeline().parameters.areaTableName"
+							},
+							"updateDatabase": {
+								"offensesTableName": {
+									"value": "@pipeline().parameters.destinationTableName",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"sourceFileName": {
+				"type": "string"
+			},
+			"destinationTableName": {
+				"type": "string"
+			},
+			"areaTableName": {
+				"type": "string",
+				"defaultValue": "Area"
+			},
+			"isReported": {
+				"type": "string",
+				"defaultValue": "1"
+			}
+		},
+		"annotations": []
+	}
+}
